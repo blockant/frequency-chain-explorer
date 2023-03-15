@@ -1,11 +1,50 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+import Header from "@/components/Header";
+import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import { Table } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { FaSearch } from "react-icons/fa";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [blocks, setBlocks] = useState([]);
+  const [accountAddress, setAccountAddress] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    const provider = new ethers.providers.JsonRpcProvider(
+      "https://polygon-mumbai.g.alchemy.com/v2/KFGiZ9X78dt4jBe16IjpjVXbhlPzuSx8"
+    );
+    const fetchBlocks = async () => {
+      const latestBlockNumber = await provider.getBlockNumber();
+      const blockPromises = [];
+      for (let i = 0; i < 20; i++) {
+        const blockNumber = latestBlockNumber - i;
+        const blockPromise = provider.getBlock(blockNumber);
+        blockPromises.push(blockPromise);
+      }
+      const blocks = await Promise.all(blockPromises);
+      setBlocks(blocks);
+    };
+    fetchBlocks();
+  }, []);
+  console.log(blocks);
+
+  function hanldeAccount(event) {
+    event.preventDefault();
+    const address = document.getElementById("accountAddress").value.trim();
+    setAccountAddress(address);
+    router.push(`/account?${address}`);
+  }
+
   return (
     <>
       <Head>
@@ -14,110 +53,94 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+      {/* <Navbar expand="lg" variant="light" bg="light">
+        <Container>
+          <Navbar.Brand href="#">Frequency</Navbar.Brand>
+        </Container>
+      </Navbar> */}
+
+      <div className="container">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12 text-center">
+              <img src="logos/frecGreen.png" alt="Frequency Chain logo" />
+              <h1 className="text-start">Frequency Chain Explorer</h1>
+              <div>
+                <form>
+                  <input
+                    type="text"
+                    placeholder="Enter Account Addrss"
+                    id="accountAddress"
+                    style={{
+                      width: "500px",
+                      borderRadius: "8px",
+                    }}
+                  />
+                  <Link
+                    onClick={hanldeAccount}
+                    href={{ pathname: "/account", query: accountAddress }}
+                    style={{
+                      paddingLeft: "50px",
+                    }}
+                  >
+                    <FaSearch
+                      style={{
+                        height: "20px",
+                        width: "20px",
+                      }}
+                    />
+                  </Link>
+                </form>
+              </div>
+
+              <h3 className="text-start">Latest 20 blocks</h3>
+              <div>
+                <Table striped bordered hover className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">TxHash</th>
+                      <th scope="col">Block</th>
+                      <th scope="col">Timestamp</th>
+                      <th scope="col">Gas Used</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {blocks.map((block) => (
+                      <tr key={block.hash}>
+                        <td>
+                          {" "}
+                          <Link
+                            href={{
+                              pathname: "/transactiondetails",
+                              query: block.hash,
+                            }}
+                          >
+                            {block.hash}
+                          </Link>
+                        </td>
+                        <td>
+                          <Link
+                            href={{
+                              pathname: "/blockdetails",
+                              query: block.number,
+                            }}
+                          >
+                            {block.number}
+                          </Link>
+                        </td>
+                        <td>
+                          {new Date(block.timestamp * 1000).toLocaleString()}
+                        </td>
+                        <td>{block.gasUsed.toString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+      </div>
     </>
-  )
+  );
 }
