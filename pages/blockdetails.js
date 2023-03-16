@@ -13,7 +13,9 @@ export default function BlockDetails() {
   const router = useRouter();
   const { query } = router;
   const blockNumber = Number(Object.keys(query)[0]);
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const provider = new ethers.providers.JsonRpcProvider(
+    "https://polygon-mumbai.g.alchemy.com/v2/KFGiZ9X78dt4jBe16IjpjVXbhlPzuSx8"
+  );
 
   console.log("BLockNumber", blockNumber);
   async function getBlockDetails() {

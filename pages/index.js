@@ -11,13 +11,20 @@ import Navbar from "react-bootstrap/Navbar";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
+import frc_green from "../public/frec_green.png";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [blocks, setBlocks] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [accountAddress, setAccountAddress] = useState("");
   const router = useRouter();
+
+  const convertIntoETH = (amount) => {
+    const ETH = ethers.utils.formatEther(amount, "ether");
+    return ETH;
+  };
 
   useEffect(() => {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -25,6 +32,9 @@ export default function Home() {
     );
     const fetchBlocks = async () => {
       const latestBlockNumber = await provider.getBlockNumber();
+      const blockTransaction = await provider.getBlock(latestBlockNumber);
+
+      setTransactions(blockTransaction.transactions);
       const blockPromises = [];
       for (let i = 0; i < 20; i++) {
         const blockNumber = latestBlockNumber - i;
@@ -59,14 +69,19 @@ export default function Home() {
         </Container>
       </Navbar> */}
 
-      <div className="container">
+      {/* <div className="container">
         <div className="container">
           <div className="row">
             <div className="col-lg-12 text-center">
-              <img src="logos/frecGreen.png" alt="Frequency Chain logo" />
+              <img
+                className="text-start"
+                style={{ width: "64px", height: "64px" }}
+                src="/frec_green.png"
+                alt="Frequency Chain logo"
+              />
               <h1 className="text-start">Frequency Chain Explorer</h1>
               <div>
-                <form>
+                <form className="text-start">
                   <input
                     type="text"
                     placeholder="Enter Account Addrss"
@@ -140,7 +155,629 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+
+      <>
+        &lt;
+        <div className="wrapper">
+          <main id="content" role="main">
+            <input
+              type="hidden"
+              name="hdnAgeText"
+              id="hdnAgeText"
+              defaultValue="Age"
+            />
+            <input
+              type="hidden"
+              name="hdnDateTimeText"
+              id="hdnDateTimeText"
+              defaultValue="Date Time (UTC)"
+            />
+            <input
+              type="hidden"
+              name="hdnAgeTitle"
+              id="hdnAgeTitle"
+              defaultValue="Click to show Age Format"
+            />
+            <input
+              type="hidden"
+              name="hdnDateTimeTitle"
+              id="hdnDateTimeTitle"
+              defaultValue="Click to show Datetime Format"
+            />
+            <input
+              type="hidden"
+              name="hdnGasPriceTitle"
+              id="hdnGasPriceTitle"
+              defaultValue="Gas Price in Gwei"
+            />
+            <input
+              type="hidden"
+              name="hdnTxnFeeTitle"
+              id="hdnTxnFeeTitle"
+              defaultValue="(Gas Price * Gas Used by Txns) in Matic"
+            />
+            <input
+              type="hidden"
+              name="hdnGasPriceText"
+              id="hdnGasPriceText"
+              defaultValue="Gas Price"
+            />
+            <input
+              type="hidden"
+              name="hdnTxnText"
+              id="hdnTxnText"
+              defaultValue="Txn Fee"
+            />
+            <section
+              className="bg-dark"
+              style={{
+                backgroundImage:
+                  "url(/images/svg/components/abstract-shapes-20.svg?v=3)",
+              }}
+            >
+              <div className="container space-top-2 space-bottom-3">
+                <div className="row justify-content-between align-items-center mb-4">
+                  <div className="col-md-12 col-lg-7">
+                    <div className="pr-lg-4 pr-xll-5">
+                      <h1 className="h4 mb-3 text-white">
+                        Frequency PoS Chain Testnet Explorer
+                      </h1>
+                      <form className="mb-3" action="/search" method="GET">
+                        <div className="input-group input-group-shadow">
+                          <div className="input-group-prepend d-none d-md-block">
+                            <select
+                              name="f"
+                              className="custom-select custom-arrow-select input-group-text font-size-base filterby"
+                            >
+                              <option selected="" value={0}>
+                                All Filters
+                              </option>
+                              <option value={1}>Addresses</option>
+                              <option value={2}>Tokens</option>
+                              <option value={3}>Name Tags</option>
+                              <option value={4}>Labels</option>
+                              <option value={5}>Websites</option>
+                            </select>
+                          </div>
+                          <input
+                            id="txtSearchInput"
+                            type="text"
+                            className="form-control searchautocomplete ui-autocomplete-input list-unstyled py-3 mb-0"
+                            placeholder="Search by Address / Txn Hash / Block / Token"
+                            aria-describedby="button-header-search"
+                            name="q"
+                            onkeyup="handleSearchText(this);"
+                            autoComplete="off"
+                          />
+                          <input
+                            type="hidden"
+                            defaultValue=""
+                            id="hdnSearchText"
+                          />
+                          <input
+                            id="hdnIsTestNet"
+                            defaultValue="True"
+                            type="hidden"
+                          />
+                          <div className="input-group-append">
+                            <button className="btn btn-primary" type="submit">
+                              <i className="fa fa-search" />
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div className="col-12 col-lg-5">
+                    <div className="d-none d-lg-block text-center pl-lg-4 pl-xll-5"></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <div className="container space-bottom-1 mt-n5">
+              <div className="row mb-5">
+                <div className="col-lg-6 mb-4 mb-lg-0">
+                  <div className="card h-100">
+                    <div className="card-header">
+                      <h2 className="card-header-title">Latest Blocks</h2>
+                    </div>
+                    <div
+                      className="js-scrollbar card-body overflow-hidden mCustomScrollbar _mCS_1 mCS-autoHide"
+                      style={{
+                        height: 400,
+                        position: "relative",
+                        overflow: "visible",
+                      }}
+                    >
+                      <div
+                        id="mCSB_1"
+                        className="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside"
+                        style={{ maxHeight: "none" }}
+                        tabIndex={0}
+                      >
+                        <div
+                          id="mCSB_1_container"
+                          className="mCSB_container"
+                          style={{ position: "relative", top: 0, left: 0 }}
+                          dir="ltr"
+                        >
+                          {blocks.map((block, i) => (
+                            <>
+                              <div key={i + 1} className="row">
+                                <div className="col-sm-4">
+                                  <div className="media align-items-sm-center mr-4 mb-1 mb-sm-0">
+                                    <div className="d-none d-sm-flex mr-2">
+                                      <span className="btn btn-icon btn-soft-secondary">
+                                        <span className="btn-icon__inner text-dark">
+                                          Bk
+                                        </span>
+                                      </span>
+                                    </div>
+                                    <div className="media-body">
+                                      <span className="d-inline-block d-sm-none">
+                                        Block
+                                      </span>{" "}
+                                      <Link
+                                        href={{
+                                          pathname: "/blockdetails",
+                                          query: block.number,
+                                        }}
+                                      >
+                                        {block.number}
+                                      </Link>
+                                      <span className="d-sm-block small text-secondary ml-1 ml-sm-0 text-nowrap">
+                                        {block.timestamp} ago
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-sm-8">
+                                  <div className="d-flex justify-content-between">
+                                    <div className="text-nowrap">
+                                      <span className="d-block mb-1 mb-sm-0">
+                                        Validated By{" "}
+                                        <a
+                                          className="hash-tag text-truncate"
+                                          href="/address/0xc275dc8be39f50d12f66b6a63629c39da5bae5bd"
+                                        >
+                                          {block.miner.slice(0, 35)}...
+                                        </a>
+                                      </span>
+                                      <a
+                                        href="/txs?block=33142347"
+                                        data-toggle="tooltip"
+                                        title=""
+                                        data-original-title="Transactions in this Block"
+                                      >
+                                        {block.transactions.length} txns
+                                      </a>{" "}
+                                      <span className="small text-secondary">
+                                        in 2 secs
+                                      </span>
+                                      <span className="d-inline-block d-sm-none">
+                                        <span
+                                          className="u-label u-label--xs u-label--badge-in u-label--secondary text-center text-nowrap"
+                                          data-toggle="tooltip"
+                                          title=""
+                                          data-original-title="Block Reward"
+                                        >
+                                          {convertIntoETH(block.baseFeePerGas)}
+                                          MATIC
+                                        </span>
+                                      </span>
+                                    </div>
+                                    <div className="d-none d-sm-block">
+                                      <span
+                                        className="u-label u-label--xs u-label--badge-in u-label--secondary text-center text-nowrap"
+                                        data-toggle="tooltip"
+                                        title=""
+                                        data-original-title="Block Reward"
+                                      >
+                                        {convertIntoETH(block.baseFeePerGas)}
+                                        MATIC
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <hr className="hr-space" />
+                            </>
+                          ))}
+                        </div>
+                      </div>
+                      <div
+                        id="mCSB_1_scrollbar_vertical"
+                        className="mCSB_scrollTools mCSB_1_scrollbar mCS-minimal-dark mCSB_scrollTools_vertical"
+                        style={{ display: "block" }}
+                      >
+                        <div className="mCSB_draggerContainer">
+                          <div
+                            id="mCSB_1_dragger_vertical"
+                            className="mCSB_dragger"
+                            style={{
+                              position: "absolute",
+                              minHeight: 50,
+                              display: "block",
+                              height: 213,
+                              maxHeight: 366,
+                              top: 0,
+                            }}
+                          >
+                            <div
+                              className="mCSB_dragger_bar"
+                              style={{ lineHeight: 50 }}
+                            />
+                            <div className="mCSB_draggerRail" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="card-footer">
+                      <a
+                        className="btn btn-xs btn-block btn-soft-primary"
+                        href="/blocks"
+                      >
+                        View all blocks
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <div className="card h-100">
+                    <div className="card-header">
+                      <h2 className="card-header-title">Latest Transactions</h2>
+                    </div>
+                    <div
+                      className="js-scrollbar card-body overflow-hidden mCustomScrollbar _mCS_2 mCS-autoHide"
+                      style={{
+                        height: 400,
+                        position: "relative",
+                        overflow: "visible",
+                      }}
+                    >
+                      <div
+                        id="mCSB_2"
+                        className="mCustomScrollBox mCS-minimal-dark mCSB_vertical mCSB_outside"
+                        tabIndex={0}
+                        style={{ maxHeight: "none" }}
+                      >
+                        <div
+                          id="mCSB_2_container"
+                          className="mCSB_container"
+                          style={{ position: "relative", top: 0, left: 0 }}
+                          dir="ltr"
+                        >
+                          {transactions.map((tx, i) => (
+                            <>
+                              <div key={i + 1} className="row">
+                                <div className="col-sm-4">
+                                  <div className="media align-items-sm-center mr-4 mb-1 mb-sm-0">
+                                    <div className="d-none d-sm-flex mr-2">
+                                      <span className="btn btn-icon btn-soft-secondary rounded-circle">
+                                        <span className="btn-icon__inner text-dark">
+                                          Tx
+                                        </span>
+                                      </span>
+                                    </div>
+                                    <div className="media-body">
+                                      <span className="d-inline-block d-sm-none mr-1">
+                                        TX#
+                                      </span>
+                                      <Link
+                                        className="hash-tag hash-tag--xs hash-tag-xs-down--md text-truncate"
+                                        href={{
+                                          pathname: "/transactiondetails",
+                                          query: tx,
+                                        }}
+                                      >
+                                        {tx.slice(0, 55)}..
+                                      </Link>
+                                      <span className="d-none d-sm-block small text-secondary">
+                                        14 secs ago
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-sm-8">
+                                  <div className="d-sm-flex justify-content-between">
+                                    <div className="text-nowrap mr-4 mb-1 mb-sm-0">
+                                      <span>
+                                        From{" "}
+                                        <a
+                                          className="hash-tag text-truncate"
+                                          href="/address/0xe1234b420eef5ec2768851330d5a8b622e10bda3"
+                                        >
+                                          0xe1234b420eef5ec2768851330d5a8b622e10bda3
+                                        </a>
+                                      </span>
+                                      <span className="d-sm-block">
+                                        To{" "}
+                                        <a
+                                          href="/address/0x0ca88c68e6cb0f762bbf2fc2aa6d65c811721f10"
+                                          className="hash-tag text-truncate"
+                                        >
+                                          0x0ca88c68e6cb0f762bbf2fc2aa6d65c811721f10
+                                        </a>
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <span
+                                        className="u-label u-label--xs u-label--badge-in u-label--secondary text-center text-nowrap"
+                                        data-toggle="tooltip"
+                                        title=""
+                                        data-original-title="Amount"
+                                      >
+                                        0 MATIC
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <hr className="hr-space" />
+                            </>
+                          ))}
+                        </div>
+                      </div>
+                      <div
+                        id="mCSB_2_scrollbar_vertical"
+                        className="mCSB_scrollTools mCSB_2_scrollbar mCS-minimal-dark mCSB_scrollTools_vertical"
+                        style={{ display: "block" }}
+                      >
+                        <div className="mCSB_draggerContainer">
+                          <div
+                            id="mCSB_2_dragger_vertical"
+                            className="mCSB_dragger"
+                            style={{
+                              position: "absolute",
+                              minHeight: 50,
+                              display: "block",
+                              height: 213,
+                              maxHeight: 366,
+                              top: 0,
+                            }}
+                          >
+                            <div
+                              className="mCSB_dragger_bar"
+                              style={{ lineHeight: 50 }}
+                            />
+                            <div className="mCSB_draggerRail" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="card-footer">
+                      <a
+                        className="btn btn-xs btn-block btn-soft-primary"
+                        href="/txs"
+                      >
+                        View all transactions
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+          <div id="push" />
+          <div
+            className="modal fade"
+            tabIndex={-1}
+            role="dialog"
+            aria-labelledby="myModalLabel"
+            id="emailSubscribeModalBox"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-sm" role="document">
+              <div className="modal-content">
+                <div className="modal-body">
+                  <button
+                    type="button"
+                    className="close close-md"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
+                  <div className="text-center py-5-alt px-4">
+                    <div id="emailSubscribeModalBoxText" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer
+          className="bg-dark py-4"
+          style={{
+            backgroundImage:
+              "url(/images/svg/components/abstract-shapes-20.svg?v=3)",
+          }}
+        >
+          <div className="container">
+            <div className="row justify-content-sm-between align-items-center">
+              <div className="col-sm-6 mb-3 mb-sm-0">
+                <div className="d-flex align-items-center">
+                  <img
+                    width={100}
+                    height={65}
+                    src="tgps_white.png"
+                    alt="Polygon Logo"
+                  />
+                  <span className="h5 text-white mb-0 ml-3">
+                    Powered by Frequency Chain
+                  </span>
+                </div>
+              </div>
+              <div className="col-sm-6 align-self-bottom">
+                <div className="d-flex justify-content-sm-end align-items-center mb-4">
+                  <span>
+                    <button
+                      type="button"
+                      className="btn btn-xss btn-soft-light text-nowrap d-flex align-items-center mr-2"
+                      onclick="addNetwork('web3');"
+                    >
+                      <img
+                        className="mr-1"
+                        width={65}
+                        height={65}
+                        src="frec_green.png"
+                        alt="Metamask"
+                      />
+                      Add Frequency Network
+                    </button>
+                  </span>
+                  <a
+                    className="btn btn-xss btn-soft-light mr-2"
+                    href="/settings"
+                  >
+                    <i className="fa fa-cogs mr-1" />
+                    Preferences
+                  </a>
+                  <button
+                    id="darkModaBtn"
+                    type="button"
+                    data-toggle="tooltip"
+                    data-title="Day/Night Mode"
+                    className="btn btn-sm btn-icon btn-soft-light"
+                    data-original-title=""
+                    title=""
+                  >
+                    <i id="darkModaBtnIcon" className="fa fa-moon" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <hr className="opacity-md" />
+            <div className="row justify-content-between align-items-center font-size-1">
+              <div className="col-md-6 mb-2 mb-md-0 d-flex">
+                <p className="mb-0 text-white">
+                  FrequencyScan © 2023 (FREq-TESTNET)
+                  <span className="mx-1">|</span> ⛏ Built by the same team
+                  behind{" "}
+                  <a
+                    className="text-primary"
+                    href="https://etherscan.io/"
+                    target="_blank"
+                  >
+                    <b>Etherscan</b>
+                  </a>{" "}
+                  <span className="mx-1">|</span>{" "}
+                  <a
+                    className="text-white-70"
+                    href="/address/0x71c7656ec7ab88b098defb751b7401b5f6d8976f"
+                  >
+                    Donate
+                  </a>{" "}
+                  <i className="fas fa-heart text-danger" />
+                </p>
+              </div>
+              <div className="col-md-6 text-md-right">
+                <ul className="list-inline mb-0">
+                  <li className="list-inline-item">
+                    <a
+                      className="unordered-list-text"
+                      rel="nofollow noopener"
+                      target="_blank"
+                      href="/terms"
+                    >
+                      Terms of Service
+                    </a>
+                  </li>
+                  <li className="list-inline-item">
+                    <a
+                      className="unordered-list-text"
+                      rel="nofollow noopener"
+                      target="_blank"
+                      href="https://polygonscan.freshstatus.io/"
+                    >
+                      Network Status
+                    </a>
+                  </li>
+                  <li className="list-inline-item">
+                    <a
+                      className="btn btn-sm btn-icon btn-soft-light btn-pill"
+                      href="/contactus"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title=""
+                      data-original-title="Contact Us"
+                    >
+                      <i className="far fa-envelope btn-icon__inner" />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
+        <div
+          id="divcookie"
+          className="fixed-bottom w-md-75 w-xl-60 mx-md-auto mx-3"
+          style={{ display: "block" }}
+        >
+          <div className="alert alert-light border shadow p-3" role="alert">
+            <div className="d-md-flex justify-content-center align-items-center">
+              <span>
+                <p className="text-dark mr-3 mb-2 mb-md-0">
+                  <i className="far fa-cookie-bite text-secondary mr-1" />
+                  This website{" "}
+                  <a href="/terms#cookiestatement" target="_blank">
+                    uses cookies to improve your experience
+                  </a>
+                  . By continuing to use this website, you agree to its{" "}
+                  <a href="/terms" target="_blank">
+                    Terms
+                  </a>{" "}
+                  and <a href="/privacyPolicy">Privacy Policy</a>.
+                </p>
+              </span>
+              <div>
+                <button
+                  id="btnCookie"
+                  className="btn btn-sm btn-primary text-nowrap py-1"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  Got It
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a
+          className="js-go-to u-go-to animated"
+          href="#"
+          data-position='{"bottom": 20, "right": 15 }'
+          data-type="fixed"
+          data-offset-top={400}
+          data-compensation="#header"
+          data-show-effect="slideInUp"
+          data-hide-effect="slideOutDown"
+          style={{
+            display: "inline-block",
+            position: "fixed",
+            opacity: 0,
+            bottom: 20,
+            right: 15,
+          }}
+        >
+          <span className="fa fa-arrow-up u-go-to__inner" />
+        </a>
+        <ul
+          id="ui-id-1"
+          tabIndex={0}
+          className="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"
+          style={{ display: "none" }}
+        />
+        <div
+          role="status"
+          aria-live="assertive"
+          aria-relevant="additions"
+          className="ui-helper-hidden-accessible"
+        />
+        <grammarly-desktop-integration data-grammarly-shadow-root="true" />
+      </>
     </>
   );
 }
