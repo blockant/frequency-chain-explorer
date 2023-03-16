@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import { Cookie, Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Header from "@/components/Header";
 import React, { useState, useEffect } from "react";
@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
 import frc_green from "../public/frec_green.png";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -287,7 +288,9 @@ export default function Home() {
                       style={{
                         height: 400,
                         position: "relative",
-                        overflow: "visible",
+
+                        overflowX: "hidden",
+                        overflowY: "scroll",
                       }}
                     >
                       <div
@@ -587,7 +590,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <footer
+        {/* <footer
           className="bg-dark py-4"
           style={{
             backgroundImage:
@@ -776,7 +779,8 @@ export default function Home() {
           aria-relevant="additions"
           className="ui-helper-hidden-accessible"
         />
-        <grammarly-desktop-integration data-grammarly-shadow-root="true" />
+        <grammarly-desktop-integration data-grammarly-shadow-root="true" /> */}
+        <Footer />
       </>
     </>
   );
