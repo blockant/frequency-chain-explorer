@@ -196,7 +196,7 @@ export default function TransactionDetails() {
         type="hidden"
         name="hdnTxnFeeTitle"
         id="hdnTxnFeeTitle"
-        defaultValue="(Gas Price * Gas Used by Txns) in Matic"
+        defaultValue="(Gas Price * Gas Used by Txns) in FREC"
       />
       <input
         type="hidden"
@@ -529,7 +529,7 @@ export default function TransactionDetails() {
                       data-placement="top"
                       data-original-title=""
                       title=""
-                      data-content="The value being transacted in MATIC and fiat value. Note: You can click the fiat value (if available) to see historical value at the time of transaction."
+                      data-content="The value being transacted in FREC and fiat value. Note: You can click the fiat value (if available) to see historical value at the time of transaction."
                     />
                     Value:
                   </div>
@@ -538,10 +538,10 @@ export default function TransactionDetails() {
                       <span
                         data-toggle="tooltip"
                         title=""
-                        data-original-title="The amount of MATIC to be transferred to the recipient with the transaction"
+                        data-original-title="The amount of FREC to be transferred to the recipient with the transaction"
                       >
                         <span className="u-label u-label--value u-label--secondary text-dark rounded mr-1">
-                          {value} ETH
+                          {value} FREC
                         </span>
                       </span>{" "}
                       ($0.00)
@@ -569,7 +569,7 @@ export default function TransactionDetails() {
                           title=""
                           data-original-title="(Block Base Fee Per Gas + MaxPriorityFee Per Gas) * Gas Used"
                         >
-                          {gasLimit * gasPrice} ETH ($0.00)
+                          {gasLimit * gasPrice} FREC ($0.00)
                         </span>
                       </span>
                     </div>
@@ -585,7 +585,7 @@ export default function TransactionDetails() {
                       data-placement="top"
                       data-original-title=""
                       title=""
-                      data-content="Cost per unit of gas specified for the transaction, in MATIC and Gwei. The higher the gas price the higher chance of getting included in a block."
+                      data-content="Cost per unit of gas specified for the transaction, in FREC and Gwei. The higher the gas price the higher chance of getting included in a block."
                     />
                     Gas Price:
                   </div>
@@ -671,7 +671,7 @@ export default function TransactionDetails() {
                         data-toggle="tooltip"
                         data-placement="top"
                         title=""
-                        data-original-title="0.000000001500000032 MATIC"
+                        data-original-title="0.000000001500000032 FREC"
                       >
                         <span className="text-secondary">Max:</span> 1<b>.</b>
                         {gasLimit * gasPrice} Gwei
@@ -682,7 +682,7 @@ export default function TransactionDetails() {
                         data-toggle="tooltip"
                         data-placement="top"
                         title=""
-                        data-original-title="0.0000000015 MATIC"
+                        data-original-title="0.0000000015 FREC"
                       >
                         <span className="text-secondary">Max Priority:</span> 1
                         <b>.</b>5 Gwei
@@ -708,11 +708,11 @@ export default function TransactionDetails() {
                     <div className="col-md-9">
                       <span className="u-label u-label--value u-label--warning text-dark rounded mr-1 mb-1">
                         {" "}
-                        🔥 Burnt: 0<b>.</b>000000000000656016 MATIC)
+                        🔥 Burnt: 0<b>.</b>000000000000656016 FREC)
                       </span>
                       <span className="u-label u-label--value u-label--success text-dark rounded mr-1 mb-1">
                         {" "}
-                        💸 Txn Savings: 0<b>.</b>000000000000656016 MATIC
+                        💸 Txn Savings: 0<b>.</b>000000000000656016 FREC
                       </span>
                     </div>
                   </div>

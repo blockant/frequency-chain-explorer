@@ -4,11 +4,15 @@ import Link from "next/link";
 import Style from "../styles/Table.module.css";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
+import Gas from "@/components/Gas";
 
 export default function BlockDetails() {
   const [blockData, setblockData] = useState([]);
   const [gasLimit, setGasLimit] = useState("");
   const [ethGasUsed, setEthGasUsed] = useState("");
+  const [difficulty, setDfficulty] = useState("");
+  const [showData, setShowData] = useState(false);
+  const currentdate = new Date();
 
   const router = useRouter();
   const { query } = router;
@@ -19,14 +23,19 @@ export default function BlockDetails() {
 
   console.log("BLockNumber", blockNumber);
   async function getBlockDetails() {
+    setShowData(false);
     try {
       const getBlock = await provider.getBlock(blockNumber);
+
       console.log("BlockObject", getBlock);
       setblockData(getBlock);
       const gasLimit = ethers.utils.formatEther(getBlock.gasLimit);
       setGasLimit(gasLimit);
       const gasUsed = ethers.utils.formatEther(getBlock.gasUsed);
       setEthGasUsed(gasUsed);
+      const diff = ethers.utils.formatEther(getBlock.difficulty);
+      setDfficulty(parseInt(diff));
+      setShowData(true);
     } catch (error) {
       console.log(error);
     }
@@ -34,9 +43,80 @@ export default function BlockDetails() {
 
   useEffect(() => {
     getBlockDetails();
-  }, []);
+  }, [blockNumber]);
 
   return (
+    // <div className={StyleTransaction.block}>
+    //   <div className={StyleTransaction.box}>
+    //     <div className={StyleTransaction.box__header}>
+    //       <h5>Block #1253667</h5>
+    //     </div>
+    //     <div className={StyleTransaction.blockTable}>
+    //       <div className={StyleTransaction.blockBtn}>
+    //         <button>Block Details</button>
+    //       </div>
+
+    //       {blockNumber && (
+    //         <div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>Block Height</p>
+    //             <p>{blockData.number}</p>
+    //           </div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>TimeStamp</p>
+    //             <p>{blockData.timestamp}</p>
+    //           </div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>Validated by:</p>
+
+    //             <Link href={{ pathname: "/account/", query: 6 }}>
+    //               <p className={StyleTransaction.color}>{blockData.miner}</p>
+    //             </Link>
+    //           </div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>Hash</p>
+    //             {/* ///////////////////// */}
+    //             <p>{blockData.hash}</p>
+    //           </div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>parentHash</p>
+    //             <p>
+    //               <p>
+    //                 {blockData.parntHash
+    //                   ? blockData.parntHash
+    //                   : "No Data Avaliable"}
+    //               </p>
+    //             </p>
+    //           </div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>Nonce</p>
+    //             <p>{blockData.nonce}</p>
+    //           </div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>Extra Data</p>
+    //             <p>{blockData.extraData}</p>
+    //           </div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>Difficulty</p>
+    //             <p>
+    //               {blockData.difficulty
+    //                 ? blockData.difficulty
+    //                 : "No Data Avaliable"}
+    //             </p>
+    //           </div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>Gas Limit</p>
+    //             <p>{gasLimit}</p>
+    //           </div>
+    //           <div className={StyleTransaction.dataRow}>
+    //             <p>Gas Used</p>
+    //             <p>{ethGasUsed}</p>
+    //           </div>
+    //         </div>
+    //       )}
+    //     </div>
+    //   </div>
+    // </div>
     <main id="content" role="main">
       <input
         type="hidden"
@@ -91,7 +171,9 @@ export default function BlockDetails() {
           <div className="mb-2 mb-sm-0">
             <h1 className="h4 mb-0">
               Block{" "}
-              <span className="small text-secondary">&nbsp;#33177011</span>
+              <span className="small text-secondary">
+                &nbsp;#{blockData.number}
+              </span>
               <br />
             </h1>
           </div>
@@ -127,7 +209,7 @@ export default function BlockDetails() {
               <div id="ContentPlaceHolder1_maintable" className="card-body">
                 <div className="ow align-items-center">
                   <div className="col-md-12 text-danger  font-weight-bold font-weight-sm-normal mb-1 mb-md-0">
-                    [ This is a POLY <strong>Testnet</strong> block only ]
+                    [ This is a Frequency <strong>Testnet</strong> block only ]
                   </div>
                 </div>{" "}
                 <hr className="hr-space" />
@@ -146,25 +228,33 @@ export default function BlockDetails() {
                   </div>
                   <div className="col-md-9">
                     <div className="d-flex">
-                      <span className="font-weight-sm-bold mr-2">33177011</span>
-                      <a
+                      <span className="font-weight-sm-bold mr-2">
+                        {blockData.number}
+                      </span>
+                      <Link
                         className="btn btn-xs btn-icon btn-soft-info mr-1"
-                        href="/block/33177010"
+                        href={{
+                          pathname: "/blockdetails",
+                          query: blockData.number - 1,
+                        }}
                         data-toggle="tooltip"
                         title=""
                         data-original-title="View previous block"
                       >
                         <i className="fa fa-chevron-left btn-icon__inner" />
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         className="btn btn-xs btn-icon btn-soft-info mr-1"
-                        href="/block/33177012"
+                        href={{
+                          pathname: "/blockdetails",
+                          query: blockData.number + 1,
+                        }}
                         data-toggle="tooltip"
                         title=""
                         data-original-title="View next block"
                       >
                         <i className="fa fa-chevron-right btn-icon__inner" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -183,8 +273,8 @@ export default function BlockDetails() {
                     Timestamp:
                   </div>
                   <div className="col-md-9">
-                    <i className="far fa-clock small mr-1" />1 hr 59 mins ago
-                    (Mar-16-2023 08:37:00 AM +UTC)
+                    <i className="far fa-clock small mr-1" />
+                    {blockData.timestamp} ago{" "}
                   </div>
                 </div>
                 <div id="ContentPlaceHolder1_div_tx_fieldname">
@@ -213,7 +303,10 @@ export default function BlockDetails() {
                         title=""
                         data-original-title="Click to view Transactions"
                       >
-                        5 transactions
+                        {showData
+                          ? blockData.transactions.length
+                          : "loading...."}{" "}
+                        transactions
                       </a>{" "}
                       and{" "}
                       <a
@@ -245,7 +338,7 @@ export default function BlockDetails() {
                   </div>
                   <div className="col-md-9">
                     <a href="/address/0xc275dc8be39f50d12f66b6a63629c39da5bae5bd">
-                      0xc275dc8be39f50d12f66b6a63629c39da5bae5bd
+                      {blockData.miner}
                     </a>{" "}
                     in 2 secs
                   </div>
@@ -298,7 +391,7 @@ export default function BlockDetails() {
                     />
                     Difficulty:
                   </div>
-                  <div className="col-md-9">5</div>
+                  <div className="col-md-9">{difficulty}</div>
                 </div>
                 <hr className="hr-space" />
                 <div className="row align-items-center">
@@ -347,209 +440,9 @@ export default function BlockDetails() {
                     Gas Used:
                   </div>
                   <div className="col-md-9 d-flex align-items-center">
-                    4,818,928 (24.09%)
+                    {ethGasUsed}
                     <div className="d-flex align-items-center">
-                      <span
-                        id="gasTargetChart"
-                        data-highcharts-chart={0}
-                        style={{ overflow: "hidden" }}
-                      >
-                        <div
-                          id="highcharts-7mur81n-0"
-                          dir="ltr"
-                          className="highcharts-container "
-                          style={{
-                            position: "relative",
-                            overflow: "hidden",
-                            width: 80,
-                            height: 40,
-                            textAlign: "left",
-                            lineHeight: "normal",
-                            zIndex: 0,
-                            WebkitTapHighlightColor: "rgba(0, 0, 0, 0)",
-                            userSelect: "none",
-                            touchAction: "manipulation",
-                            outline: "none",
-                          }}
-                        >
-                          <svg
-                            version="1.1"
-                            className="highcharts-root"
-                            style={{
-                              fontFamily:
-                                '"Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif',
-                              fontSize: 12,
-                            }}
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={80}
-                            height={40}
-                            viewBox="0 0 80 40"
-                          >
-                            <desc>Created with Highcharts 9.1.2</desc>
-                            <defs>
-                              <clipPath id="highcharts-7mur81n-2-">
-                                <rect
-                                  x={0}
-                                  y={0}
-                                  width={80}
-                                  height={40}
-                                  fill="none"
-                                />
-                              </clipPath>
-                            </defs>
-                            <rect
-                              fill="#ffffff"
-                              className="highcharts-background"
-                              x={0}
-                              y={0}
-                              width={80}
-                              height={40}
-                              rx={0}
-                              ry={0}
-                            />
-                            <rect
-                              fill="none"
-                              className="highcharts-plot-background"
-                              x={0}
-                              y={0}
-                              width={80}
-                              height={40}
-                            />
-                            <g
-                              className="highcharts-pane-group"
-                              data-z-index={0}
-                            >
-                              <path
-                                fill="#EEE"
-                                d="M 20 27.999999999999996 A 20 20 0 0 1 59.999990000000835 27.98000000333334 L 51.9999940000005 27.988000002000007 A 12 12 0 0 0 28 28 Z"
-                                className="highcharts-pane "
-                                stroke="#cccccc"
-                                strokeWidth={1}
-                              />
-                            </g>
-                            <g
-                              className="highcharts-grid highcharts-yaxis-grid highcharts-radial-axis-grid"
-                              data-z-index={1}
-                            >
-                              <path
-                                fill="none"
-                                strokeDasharray="none"
-                                data-z-index={1}
-                                className="highcharts-grid-line"
-                                d="M 28 27.999999999999996 L 20 27.999999999999996"
-                                opacity={1}
-                              />
-                              <path
-                                fill="none"
-                                strokeDasharray="none"
-                                data-z-index={1}
-                                className="highcharts-grid-line"
-                                d="M 52 28.000000000000004 L 60 28.000000000000007"
-                                opacity={1}
-                              />
-                            </g>
-                            <rect
-                              fill="none"
-                              className="highcharts-plot-border"
-                              data-z-index={1}
-                              x={0}
-                              y={0}
-                              width={80}
-                              height={40}
-                            />
-                            <g
-                              className="highcharts-axis highcharts-yaxis highcharts-radial-axis"
-                              data-z-index={2}
-                            >
-                              <path
-                                fill="none"
-                                className="highcharts-axis-line"
-                                data-z-index={7}
-                                d="M 20 27.999999999999996 A 20 20 0 0 1 59.999990000000835 27.980000003333334 M 40 28 A 0 0 0 0 0 40 28"
-                              />
-                            </g>
-                            <g
-                              className="highcharts-series-group"
-                              data-z-index={3}
-                            >
-                              <g
-                                className="highcharts-series highcharts-series-0 highcharts-solidgauge-series highcharts-tracker"
-                                data-z-index="0.1"
-                                opacity={1}
-                                transform="translate(0,0) scale(1 1)"
-                                clipPath="url(#highcharts-7mur81n-2-)"
-                              >
-                                <path
-                                  fill="rgb(223,83,83)"
-                                  d="M 20 27.999999999999996 A 20 20 0 0 1 25.40694380142069 14.323644097015242 L 31.244166280852415 19.794186458209147 A 12 12 0 0 0 28 28 Z"
-                                  sweep-flag={0}
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="highcharts-point highcharts-color-0"
-                                />
-                              </g>
-                              <g
-                                className="highcharts-markers highcharts-series-0 highcharts-solidgauge-series"
-                                data-z-index="0.1"
-                                opacity={1}
-                                transform="translate(0,0) scale(1 1)"
-                                clipPath="none"
-                              />
-                            </g>
-                            <text
-                              x={40}
-                              textAnchor="middle"
-                              className="highcharts-title"
-                              data-z-index={4}
-                              style={{
-                                color: "#333333",
-                                fontSize: 18,
-                                fill: "#333333",
-                              }}
-                              y={24}
-                            />
-                            <text
-                              x={40}
-                              textAnchor="middle"
-                              className="highcharts-subtitle"
-                              data-z-index={4}
-                              style={{ color: "#666666", fill: "#666666" }}
-                              y={24}
-                            />
-                            <text
-                              x={10}
-                              textAnchor="start"
-                              className="highcharts-caption"
-                              data-z-index={4}
-                              style={{ color: "#666666", fill: "#666666" }}
-                              y={37}
-                            />
-                            <g
-                              className="highcharts-legend highcharts-no-tooltip"
-                              data-z-index={7}
-                            >
-                              <rect
-                                fill="none"
-                                className="highcharts-legend-box"
-                                rx={0}
-                                ry={0}
-                                x={0}
-                                y={0}
-                                width={8}
-                                height={8}
-                                visibility="hidden"
-                              />
-                              <g data-z-index={1}>
-                                <g />
-                              </g>
-                            </g>
-                            <g
-                              className="highcharts-axis-labels highcharts-yaxis-labels highcharts-radial-axis-labels"
-                              data-z-index={7}
-                            />
-                          </svg>
-                        </div>
-                      </span>
+                      <Gas />
                       <span id="gasTargetText" className="text-danger">
                         -52% Gas Target
                       </span>
@@ -629,9 +522,7 @@ export default function BlockDetails() {
                       className="form-control bg-light text-secondary text-monospace p-3"
                       rows={6}
                       id="extraData"
-                      defaultValue={
-                        "Hex: 0xd682030683626f7288676f312e31392e37856c696e7578000000000000000000e4f2d987316bf15cedd65b754435d91247535a36efee5a8705c3c8336f68bef74dcebcbfbb495847ac8ff262ab04542de8cb127e08d029686bb51e479582856d00\n\nExtraVanity : ւ\u0003\u0006�bor�go1.19.7�linux���������\nSignedData : 0xe4f2d987316bf15cedd65b754435d91247535a36efee5a8705c3c8336f68bef74dcebcbfbb495847ac8ff262ab04542de8cb127e08d029686bb51e479582856d00"
-                      }
+                      defaultValue={blockData.extraData}
                     />
                   </div>
                 </div>
@@ -650,9 +541,7 @@ export default function BlockDetails() {
                       />
                       Hash:
                     </div>
-                    <div className="col-md-9">
-                      0xece2d92487c985c66d4a2afd0dbd95b9e587374c27274269b38eb1ed41c50526
-                    </div>
+                    <div className="col-md-9">{blockData.hash}</div>
                   </div>
                   <hr className="hr-space" />
                   <div className="row align-items-center">
@@ -670,7 +559,7 @@ export default function BlockDetails() {
                     </div>
                     <div className="col-md-9">
                       <a href="/block/0x45f76d5cb94c3ea2b5a0477f585df09bf9ad32d3fa49f75b1c29c21daf474149">
-                        0x45f76d5cb94c3ea2b5a0477f585df09bf9ad32d3fa49f75b1c29c21daf474149
+                        {blockData.parentHash}
                       </a>
                     </div>
                   </div>

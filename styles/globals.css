@@ -24230,7 +24230,6 @@ element.style {
 }
 .mCustomScrollBox {
   position: relative;
-  overflow: hidden;
   height: 100%;
   max-width: 100%;
   outline: none;

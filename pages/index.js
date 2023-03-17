@@ -196,7 +196,7 @@ export default function Home() {
               type="hidden"
               name="hdnTxnFeeTitle"
               id="hdnTxnFeeTitle"
-              defaultValue="(Gas Price * Gas Used by Txns) in Matic"
+              defaultValue="(Gas Price * Gas Used by Txns) in FREC"
             />
             <input
               type="hidden"
@@ -290,7 +290,7 @@ export default function Home() {
                         position: "relative",
 
                         overflowX: "hidden",
-                        overflowY: "scroll",
+                        overflowY: "scroll !important",
                       }}
                     >
                       <div
@@ -366,7 +366,7 @@ export default function Home() {
                                           data-original-title="Block Reward"
                                         >
                                           {convertIntoETH(block.baseFeePerGas)}
-                                          MATIC
+                                          FREC
                                         </span>
                                       </span>
                                     </div>
@@ -378,7 +378,7 @@ export default function Home() {
                                         data-original-title="Block Reward"
                                       >
                                         {convertIntoETH(block.baseFeePerGas)}
-                                        MATIC
+                                        FREC
                                       </span>
                                     </div>
                                   </div>
@@ -417,12 +417,12 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="card-footer">
-                      <a
+                      <Link
                         className="btn btn-xs btn-block btn-soft-primary"
-                        href="/blocks"
+                        href={{ pathname: "/blocks" }}
                       >
                         View all blocks
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -437,6 +437,7 @@ export default function Home() {
                         height: 400,
                         position: "relative",
                         overflow: "visible",
+                        overflowY: "scroll !important",
                       }}
                     >
                       <div
@@ -511,7 +512,7 @@ export default function Home() {
                                         title=""
                                         data-original-title="Amount"
                                       >
-                                        0 MATIC
+                                        0 FREC
                                       </span>
                                     </div>
                                   </div>
@@ -550,12 +551,12 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="card-footer">
-                      <a
+                      <Link
                         className="btn btn-xs btn-block btn-soft-primary"
-                        href="/txs"
+                        href={{ pathname: "/transactions" }}
                       >
                         View all transactions
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -780,7 +781,6 @@ export default function Home() {
           className="ui-helper-hidden-accessible"
         />
         <grammarly-desktop-integration data-grammarly-shadow-root="true" /> */}
-        <Footer />
       </>
     </>
   );

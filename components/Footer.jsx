@@ -70,7 +70,7 @@ export default function Footer() {
                   href="https://etherscan.io/"
                   target="_blank"
                 >
-                  <b>Etherscan</b>
+                  <b>Thai Green</b>
                 </a>{" "}
                 <span className="mx-1">|</span>{" "}
                 <a
