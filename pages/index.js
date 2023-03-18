@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import { Cookie, Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Header from "@/components/Header";
 import React, { useState, useEffect } from "react";
@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
 import frc_green from "../public/frec_green.png";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -195,7 +196,7 @@ export default function Home() {
               type="hidden"
               name="hdnTxnFeeTitle"
               id="hdnTxnFeeTitle"
-              defaultValue="(Gas Price * Gas Used by Txns) in Matic"
+              defaultValue="(Gas Price * Gas Used by Txns) in FREC"
             />
             <input
               type="hidden"
@@ -287,7 +288,9 @@ export default function Home() {
                       style={{
                         height: 400,
                         position: "relative",
-                        overflow: "visible",
+
+                        overflowX: "hidden",
+                        overflowY: "scroll !important",
                       }}
                     >
                       <div
@@ -363,7 +366,7 @@ export default function Home() {
                                           data-original-title="Block Reward"
                                         >
                                           {convertIntoETH(block.baseFeePerGas)}
-                                          MATIC
+                                          FREC
                                         </span>
                                       </span>
                                     </div>
@@ -375,7 +378,7 @@ export default function Home() {
                                         data-original-title="Block Reward"
                                       >
                                         {convertIntoETH(block.baseFeePerGas)}
-                                        MATIC
+                                        FREC
                                       </span>
                                     </div>
                                   </div>
@@ -414,12 +417,12 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="card-footer">
-                      <a
+                      <Link
                         className="btn btn-xs btn-block btn-soft-primary"
-                        href="/blocks"
+                        href={{ pathname: "/blocks" }}
                       >
                         View all blocks
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -434,6 +437,7 @@ export default function Home() {
                         height: 400,
                         position: "relative",
                         overflow: "visible",
+                        overflowY: "scroll !important",
                       }}
                     >
                       <div
@@ -508,7 +512,7 @@ export default function Home() {
                                         title=""
                                         data-original-title="Amount"
                                       >
-                                        0 MATIC
+                                        0 FREC
                                       </span>
                                     </div>
                                   </div>
@@ -547,12 +551,12 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="card-footer">
-                      <a
+                      <Link
                         className="btn btn-xs btn-block btn-soft-primary"
-                        href="/txs"
+                        href={{ pathname: "/transactions" }}
                       >
                         View all transactions
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -587,7 +591,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <footer
+        {/* <footer
           className="bg-dark py-4"
           style={{
             backgroundImage:
@@ -776,7 +780,7 @@ export default function Home() {
           aria-relevant="additions"
           className="ui-helper-hidden-accessible"
         />
-        <grammarly-desktop-integration data-grammarly-shadow-root="true" />
+        <grammarly-desktop-integration data-grammarly-shadow-root="true" /> */}
       </>
     </>
   );
