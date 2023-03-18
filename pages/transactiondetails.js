@@ -312,8 +312,8 @@ export default function TransactionDetails() {
               <div id="ContentPlaceHolder1_maintable" className="card-body">
                 <div className="row align-items-center mb-4">
                   <div className="col-md-12 text-danger  font-weight-bold font-weight-sm-normal mb-1 mb-md-0">
-                    [ This is a Frequency PoS <strong>Testnet</strong>{" "}
-                    transaction only ]
+                    [ This is a Frequency <strong>Mainnet</strong> transaction
+                    only ]
                   </div>
                 </div>{" "}
                 <hr className="hr-space my-4" />
@@ -447,9 +447,10 @@ export default function TransactionDetails() {
                       {transactionData.from}
                     </span>
                     <a
+                      style={{ color: "#8247e5" }}
                       id="addressCopy"
                       className="mr-1"
-                      href="/address/0xe72046c65a1051fa78672896f8f667633051abbc"
+                      // href="/address/0xe72046c65a1051fa78672896f8f667633051abbc"
                     >
                       {transactionData.from}
                     </a>
@@ -485,8 +486,9 @@ export default function TransactionDetails() {
                   <div className="col-md-9">
                     Contract{" "}
                     <a
+                      style={{ color: "#8247e5" }}
                       id="contractCopy"
-                      href="/address/0xa689c3dbf06172a67c2356ee16d5baecd0346808"
+                      // href="/address/0xa689c3dbf06172a67c2356ee16d5baecd0346808"
                       className="wordwrap mr-1"
                     >
                       {transactionData.to}
@@ -948,9 +950,9 @@ export default function TransactionDetails() {
                     </div>
                     <div className="col-md-9">
                       To access the Private Note feature, you must be{" "}
-                      <a href="/login?returntx=0x6363f3b5a452d62d20222ebfbd2236553d040e1d16e01be19ba768c98d5b7552">
+                      <text href="/login?returntx=0x6363f3b5a452d62d20222ebfbd2236553d040e1d16e01be19ba768c98d5b7552">
                         Logged In
-                      </a>
+                      </text>
                     </div>
                   </div>
                 </div>

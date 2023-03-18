@@ -72,7 +72,7 @@ export default function Header() {
                       Home
                     </a>
                   </li>
-                  <li
+                  {/* <li
                     id="LI_blockchain"
                     className="nav-item hs-has-sub-menu u-header__nav-item"
                     data-event="hover"
@@ -316,7 +316,7 @@ export default function Header() {
                         </a>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
                   <li className="u-header__nav-separator ml-3" />
                   <li
                     className="nav-item hs-has-sub-menu u-header__nav-item my-md-n1"
@@ -333,7 +333,7 @@ export default function Header() {
                       aria-labelledby="testnetexplorersDropdown"
                     >
                       <span className="btn btn-xss btn-soft-primary cursor-pointer d-none d-md-inline-block">
-                        Testnet
+                        Mainnet
                       </span>
                       <span className="d-inline-block d-md-none">
                         Explorers
@@ -356,9 +356,9 @@ export default function Header() {
                       <li id="LI_testnetTestnet">
                         <a
                           className="nav-link u-header__sub-menu-nav-link"
-                          href="https://mumbai.polygonscan.com"
+                          // href="https://mumbai.polygonscan.com"
                         >
-                          frequency Testnet
+                          Frequency Mennet
                         </a>
                       </li>
                     </ul>
