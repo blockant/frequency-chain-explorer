@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
 import frc_green from "../public/frec_green.png";
 import Footer from "@/components/Footer";
+import { ImSearch } from "react-icons/im";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -159,7 +160,6 @@ export default function Home() {
       </div> */}
 
       <>
-        &lt;
         <div className="wrapper">
           <main id="content" role="main">
             <input
@@ -222,7 +222,7 @@ export default function Home() {
                   <div className="col-md-12 col-lg-7">
                     <div className="pr-lg-4 pr-xll-5">
                       <h1 className="h4 mb-3 text-white">
-                        Frequency PoS Chain Testnet Explorer
+                        Frequency Chain Mainnet Explorer
                       </h1>
                       <form className="mb-3" action="/search" method="GET">
                         <div className="input-group input-group-shadow">
@@ -262,8 +262,12 @@ export default function Home() {
                             type="hidden"
                           />
                           <div className="input-group-append">
-                            <button className="btn btn-primary" type="submit">
-                              <i className="fa fa-search" />
+                            <button
+                              className="btn btn-primary"
+                              type="submit"
+                              disabled="true"
+                            >
+                              <ImSearch />
                             </button>
                           </div>
                         </div>
@@ -341,8 +345,9 @@ export default function Home() {
                                       <span className="d-block mb-1 mb-sm-0">
                                         Validated By{" "}
                                         <a
+                                          style={{ color: "#8247e5" }}
                                           className="hash-tag text-truncate"
-                                          href="/address/0xc275dc8be39f50d12f66b6a63629c39da5bae5bd"
+                                          // href="/address/0xc275dc8be39f50d12f66b6a63629c39da5bae5bd"
                                         >
                                           {block.miner.slice(0, 35)}...
                                         </a>
@@ -489,8 +494,9 @@ export default function Home() {
                                       <span>
                                         From{" "}
                                         <a
+                                          style={{ color: "#8247e5" }}
                                           className="hash-tag text-truncate"
-                                          href="/address/0xe1234b420eef5ec2768851330d5a8b622e10bda3"
+                                          // href="/address/0xe1234b420eef5ec2768851330d5a8b622e10bda3"
                                         >
                                           0xe1234b420eef5ec2768851330d5a8b622e10bda3
                                         </a>
@@ -498,7 +504,8 @@ export default function Home() {
                                       <span className="d-sm-block">
                                         To{" "}
                                         <a
-                                          href="/address/0x0ca88c68e6cb0f762bbf2fc2aa6d65c811721f10"
+                                          style={{ color: "#8247e5" }}
+                                          // href="/address/0x0ca88c68e6cb0f762bbf2fc2aa6d65c811721f10"
                                           className="hash-tag text-truncate"
                                         >
                                           0x0ca88c68e6cb0f762bbf2fc2aa6d65c811721f10

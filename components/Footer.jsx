@@ -27,6 +27,7 @@ export default function Footer() {
               <div className="d-flex justify-content-sm-end align-items-center mb-4">
                 <span>
                   <button
+                    disabled="true"
                     type="button"
                     className="btn btn-xss btn-soft-light text-nowrap d-flex align-items-center mr-2"
                     onclick="addNetwork('web3');"
@@ -41,11 +42,17 @@ export default function Footer() {
                     Add Frequency Network
                   </button>
                 </span>
-                <a className="btn btn-xss btn-soft-light mr-2" href="/settings">
+                <a
+                  style={{ color: "#8247e5" }}
+                  disabled="true"
+                  className="btn btn-xss btn-soft-light mr-2"
+                  // href="/settings"
+                >
                   <i className="fa fa-cogs mr-1" />
                   Preferences
                 </a>
                 <button
+                  disabled="true"
                   id="darkModaBtn"
                   type="button"
                   data-toggle="tooltip"
@@ -63,49 +70,51 @@ export default function Footer() {
           <div className="row justify-content-between align-items-center font-size-1">
             <div className="col-md-6 mb-2 mb-md-0 d-flex">
               <p className="mb-0 text-white">
-                FrequencyScan © 2023 (FREq-TESTNET)
+                FrequencyScan © 2023 (FREC-MAINNET)
                 <span className="mx-1">|</span> ⛏ Built by the same team behind{" "}
-                <a
+                <text
                   className="text-primary"
                   href="https://etherscan.io/"
                   target="_blank"
                 >
                   <b>Thai Green</b>
-                </a>{" "}
+                </text>{" "}
                 <span className="mx-1">|</span>{" "}
-                <a
+                <text
                   className="text-white-70"
                   href="/address/0x71c7656ec7ab88b098defb751b7401b5f6d8976f"
                 >
                   Donate
-                </a>{" "}
+                </text>{" "}
                 <i className="fas fa-heart text-danger" />
               </p>
             </div>
             <div className="col-md-6 text-md-right">
               <ul className="list-inline mb-0">
                 <li className="list-inline-item">
-                  <a
+                  <text
+                    style={{ color: "#8247e5" }}
                     className="unordered-list-text"
                     rel="nofollow noopener"
                     target="_blank"
                     href="/terms"
                   >
                     Terms of Service
-                  </a>
+                  </text>
                 </li>
                 <li className="list-inline-item">
-                  <a
+                  <text
+                    style={{ color: "#8247e5" }}
                     className="unordered-list-text"
                     rel="nofollow noopener"
                     target="_blank"
                     href="https://polygonscan.freshstatus.io/"
                   >
                     Network Status
-                  </a>
+                  </text>
                 </li>
                 <li className="list-inline-item">
-                  <a
+                  <text
                     className="btn btn-sm btn-icon btn-soft-light btn-pill"
                     href="/contactus"
                     data-toggle="tooltip"
@@ -114,79 +123,13 @@ export default function Footer() {
                     data-original-title="Contact Us"
                   >
                     <i className="far fa-envelope btn-icon__inner" />
-                  </a>
+                  </text>
                 </li>
               </ul>
             </div>
           </div>
         </div>
       </footer>
-      <div
-        id="divcookie"
-        className="fixed-bottom w-md-75 w-xl-60 mx-md-auto mx-3"
-        style={{ display: "block" }}
-      >
-        <div className="alert alert-light border shadow p-3" role="alert">
-          <div className="d-md-flex justify-content-center align-items-center">
-            <span>
-              <p className="text-dark mr-3 mb-2 mb-md-0">
-                <i className="far fa-cookie-bite text-secondary mr-1" />
-                This website{" "}
-                <a href="/terms#cookiestatement" target="_blank">
-                  uses cookies to improve your experience
-                </a>
-                . By continuing to use this website, you agree to its{" "}
-                <a href="/terms" target="_blank">
-                  Terms
-                </a>{" "}
-                and <a href="/privacyPolicy">Privacy Policy</a>.
-              </p>
-            </span>
-            <div>
-              <button
-                id="btnCookie"
-                className="btn btn-sm btn-primary text-nowrap py-1"
-                data-dismiss="alert"
-                aria-label="Close"
-              >
-                Got It
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a
-        className="js-go-to u-go-to animated"
-        href="#"
-        data-position='{"bottom": 20, "right": 15 }'
-        data-type="fixed"
-        data-offset-top={400}
-        data-compensation="#header"
-        data-show-effect="slideInUp"
-        data-hide-effect="slideOutDown"
-        style={{
-          display: "inline-block",
-          position: "fixed",
-          opacity: 0,
-          bottom: 20,
-          right: 15,
-        }}
-      >
-        <span className="fa fa-arrow-up u-go-to__inner" />
-      </a>
-      <ul
-        id="ui-id-1"
-        tabIndex={0}
-        className="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"
-        style={{ display: "none" }}
-      />
-      <div
-        role="status"
-        aria-live="assertive"
-        aria-relevant="additions"
-        className="ui-helper-hidden-accessible"
-      />
-      <grammarly-desktop-integration data-grammarly-shadow-root="true" />
     </>
   );
 }

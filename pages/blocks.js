@@ -106,7 +106,7 @@ export default function blocks() {
               </span>
             </div>
             <a
-              href="https://burn.polygon.technology/?network=testnet"
+              // href="https://burn.polygon.technology/?network=testnet"
               target="_blank"
               rel="nofollow noopener"
             >
@@ -248,13 +248,17 @@ export default function blocks() {
                         </span>
                       </td>
                       <td>
-                        <a href="/txs?block=33214608">
+                        <a
+                          style={{ color: "#8247e5" }}
+                          // href="/txs?block=33214608"
+                        >
                           {block.transactions.length}
                         </a>
                       </td>
                       <td>
                         <a
-                          href="/address/0xc26880a0af2ea0c7e8130e6ec47af756465452e8"
+                          style={{ color: "#8247e5" }}
+                          // href="/address/0xc26880a0af2ea0c7e8130e6ec47af756465452e8"
                           className="hash-tag text-truncate"
                           data-toggle="tooltip"
                           title=""

@@ -255,12 +255,14 @@ export default function Transactions() {
                       </td>
                       <td>
                         <span className="hash-tag text-truncate">
-                          <a
-                            href="/tx/0xc1bfda963270a2feb1d80b05d6091150276726f6b8bdb6efc329af76bb10402a"
-                            className="myFnExpandBox_searchVal"
+                          <Link
+                            href={{
+                              pathname: "/transactiondetails",
+                              query: tx.hash,
+                            }}
                           >
                             {tx.hash}
-                          </a>
+                          </Link>
                         </span>
                       </td>
                       <td>
